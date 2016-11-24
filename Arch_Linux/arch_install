@@ -1,0 +1,16 @@
+#!/bin/bash
+loadkeys br-abnt2
+mkfs.xfs -f /dev/sda5
+mkfs.ext4 /dev/sda6
+swapon /dev/sda8
+mount /dev/sda5 /mnt
+mkdir -p /mnt/boot
+mount /dev/sda6 /mnt/boot
+mkdir -p /mnt/boot/efi
+mount /dev/sda2 /mnt/boot/efi
+pacstrap /mnt base base-devel
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -s /usr/share/zoneinfo/America/Recife /etc/localtime
+hwclock --systohc --utc
+echo "Acabei no hwclock"
